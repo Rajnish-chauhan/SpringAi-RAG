@@ -1,6 +1,7 @@
 package com.rajnishsystems.in.rag.config;
 
 import com.rajnishsystems.in.rag.advisor.TokenUsageAuditAdvisor;
+import com.rajnishsystems.in.rag.rag.PIIMaskingDocumentPostProcessor;
 import org.springframework.ai.chat.cache.semantic.SemanticCacheAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ChatMemoryChatClientConfig {
 
     @Bean
-    ChatMemory chatMemoryHai(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
+    ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
         return MessageWindowChatMemory.builder().maxMessages(10)
                 .chatMemoryRepository(jdbcChatMemoryRepository).build();
     }
@@ -48,7 +49,7 @@ public class ChatMemoryChatClientConfig {
                         .targetLanguage("english").build())
                 .documentRetriever(VectorStoreDocumentRetriever.builder().vectorStore(vectorStore)
                         .topK(3).similarityThreshold(0.5).build())
-                .documentPostProcessors(PIMaskingDocumentPostProcessor.builder())
+                .documentPostProcessors(PIIMaskingDocumentPostProcessor.builder())
                 .build();
     }
 }

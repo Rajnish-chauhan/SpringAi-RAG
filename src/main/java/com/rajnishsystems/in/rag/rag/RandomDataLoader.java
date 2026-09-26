@@ -1,22 +1,24 @@
 package com.rajnishsystems.in.rag.rag;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Component
+// @Component
 public class RandomDataLoader {
+
     private final VectorStore vectorStore;
-    public RandomDataLoader(VectorStore vectorStore){
-        this.vectorStore=vectorStore;
+
+    public RandomDataLoader(VectorStore vectorStore) {
+        this.vectorStore = vectorStore;
     }
 
-    public void loadSentencesIntoVectorStore(){
-        List<String>sentences=List.of(
+    @PostConstruct
+    public void loadSentencesIntoVectorStore() {
+        List<String> sentences = List.of(
                 "Java is used for building scalable enterprise applications.",
                 "Python is commonly used for machine learning and automation tasks.",
                 "JavaScript is essential for creating interactive web pages.",
@@ -72,9 +74,8 @@ public class RandomDataLoader {
                 "CRM systems manage customer relationships and sales pipelines.",
                 "SWOT analysis identifies strengths, weaknesses, opportunities, and threats."
         );
-        List<Document>documents=sentences.stream()
-                .map(Document::new)
-                .collect(Collectors.toList());
+        List<Document> documents = sentences.stream().map(Document::new).collect(Collectors.toList());
         vectorStore.add(documents);
     }
+
 }

@@ -12,13 +12,14 @@ import java.util.List;
 @Configuration
 public class ChatConfig {
 
-    @Bean("chatClient")
-    public ChatClient chatClient(ChatClient.Builder chatClientBuilder){
-        OpenAiChatOptions.Builder openAiChatOptions=OpenAiChatOptions.builder().model("gpt-4o-mini").temperature(0.7);
+    @Bean
+    public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
+        var options = OpenAiChatOptions.builder().model("gpt-5.4-mini").temperature(0.8);
         return chatClientBuilder
-                .defaultOptions(openAiChatOptions)
-                .defaultAdvisors(List.of(new TokenUsageAuditAdvisor(),new SimpleLoggerAdvisor()))
-               .defaultSystem("""
+                .defaultOptions(options)
+                .defaultAdvisors(List.of(new SimpleLoggerAdvisor(),
+                        new TokenUsageAuditAdvisor()))
+                .defaultSystem("""
                         You are an internal HR assistant. Your role is to help\s
                         employees with questions related to HR policies, such as\s
                         leave policies, working hours, benefits, and code of conduct.
