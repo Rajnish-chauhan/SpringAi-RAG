@@ -12,5 +12,10 @@ services:
       - "9090:9090" # Exposes Prometheus UI at http://localhost:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml # Mounts your config file into the container
-    depends_on:
-      - app-container # Ensures your app starts before Prometheus tries to scrape it
+    networks:
+      - spring-ai
+
+
+networks:
+  spring-ai:
+    driver: bridge
